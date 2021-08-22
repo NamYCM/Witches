@@ -49,10 +49,13 @@ namespace Witches {
             Ray raySelection = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
             RaycastHit hitSelection;
 
-            if (Physics.Raycast(raySelection, out hitSelection, 100f, 1 << LayerMask.NameToLayer("Object"))) {
+            if (Physics.Raycast(raySelection, out hitSelection)) {
                 //Get control object where mouse position
                 try {
-                    selected = hitSelection.transform.GetComponent<Rigidbody>();
+                    if (hitSelection.transform.tag == "Object") {
+                        selected = hitSelection.transform.GetComponent<Rigidbody>();
+                    }
+                    else return;
                 }
                 catch (MissingComponentException) {
                     Debug.Log("Missing rigibody in target!!!");
