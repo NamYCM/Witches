@@ -12,7 +12,7 @@ namespace Witches
 // #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 // 	//[RequireComponent(typeof(PlayerInput))]
 // #endif
-	public abstract class ThirdPersonController<T> : SingletonMono<T> where T : MonoBehaviour
+	public class ThirdPersonController<T> : SingletonMono<T> where T : MonoBehaviour
 	{
 		[Header("Player")]
 		[Tooltip("Move speed of the character in m/s")]
