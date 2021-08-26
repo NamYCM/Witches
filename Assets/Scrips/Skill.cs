@@ -8,7 +8,7 @@ namespace Witches {
         void Execute();
     }
 
-    public class Telekinesis : ISkill
+    public class Telekinesis : ISkill, IObserver
     {
         private Rigidbody selected;
         private Vector3 localPositionAtForce;
@@ -27,7 +27,7 @@ namespace Witches {
             }
         }
 
-        public void ControlTarget() {
+        private void ControlTarget() {
             //Add force from position at force on target to current position mouse
             Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
             Vector3 position;
@@ -43,7 +43,7 @@ namespace Witches {
             }
         }
 
-        public void CatchTarget() {
+        private void CatchTarget() {
            
 
             Ray raySelection = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
@@ -77,9 +77,14 @@ namespace Witches {
             }
         }
 
-        public void ResetTarget() {
+        private void ResetTarget() {
             selected = null;
         }
+
+        public void OnNotify (object key, object data) {
+            if ((SkillType)key == SkillType.Telekinesis) {
+                Execute();
+            }
+        }
     }
-        
 }

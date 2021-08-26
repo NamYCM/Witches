@@ -37,24 +37,37 @@ namespace Witches {
         };
 
         private Telekinesis telekinesis = new Telekinesis();
+        public float offsetMoveOnSkill = 1f; 
 
         public Stats Stat { 
             get {return stat; } 
             private set {stat = value; } 
         }
 
+        protected override void Start()
+        {
+            base.Start();
+        }
+
         protected override void Update() {
-            if (!InputManager.Instance.onSkill)
-                base.Update();
-            
+            base.Update();
+                
             ExecuteSkill();
         }
         
 
         private void ExecuteSkill () {
-            if (!InputManager.Instance.onSkill) return;
-
-            telekinesis.Execute();
+            if (InputManager.Instance.onSkill) {
+                // telekinesis.Execute();
+                SendMessage(SkillType.Telekinesis);
+                if (!CanSprint) return;
+                MoveSpeed -= offsetMoveOnSkill;
+                CanSprint = false;
+            }
+            else if (!CanSprint) {
+                CanSprint = true;
+                MoveSpeed += offsetMoveOnSkill;
+            }
         }
     }
 }

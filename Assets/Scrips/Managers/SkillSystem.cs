@@ -2,15 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SkillType {
-    Telekinesis
-}
+namespace Witches {
+    public class SkillSystem : MonoBehaviour {
+        private Telekinesis telekinesis = new Telekinesis();
 
-public class SkillSystem : MonoBehaviour, IObserverSkill
-{
-    public void OnNotify (SkillType notificationType) {
-        if (notificationType == SkillType.Telekinesis) {
-            //execute skill
+        void Start() {
+            Witch.Instance.RegisterObserver((object)SkillType.Telekinesis, telekinesis);
         }
     }
+
+    public enum SkillType {
+        Telekinesis
+    }
+
+    
 }
+    

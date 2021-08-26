@@ -12,7 +12,7 @@ namespace Witches
 // #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 // 	//[RequireComponent(typeof(PlayerInput))]
 // #endif
-	public class ThirdPersonController<T> : SingletonMono<T> where T : MonoBehaviour
+	public class ThirdPersonController<T> : SingleSubject<T> where T : MonoBehaviour
 	{
 		[Header("Player")]
 		[Tooltip("Move speed of the character in m/s")]
@@ -58,6 +58,8 @@ namespace Witches
 		public float CameraAngleOverride = 0.0f;
 		[Tooltip("For locking the camera position on all axis")]
 		public bool LockCameraPosition = false;
+
+		protected bool CanSprint = true;
 
 		// cinemachine
 		private float _cinemachineTargetYaw;
@@ -169,7 +171,14 @@ namespace Witches
 		private void Move()
 		{
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+			float targetSpeed;
+			if (CanSprint)
+			{
+				targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+			}
+			else {
+				targetSpeed = MoveSpeed;
+			}
 
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
