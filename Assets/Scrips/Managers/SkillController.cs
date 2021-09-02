@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Witches {
-    public class SkillSystem : MonoBehaviour {
+    public class SkillController : MonoBehaviour {
         private Telekinesis telekinesis = new Telekinesis();
 
         void Start() {
