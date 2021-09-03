@@ -44,8 +44,6 @@ namespace Witches {
         }
 
         private void CatchTarget() {
-           
-
             Ray raySelection = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
             RaycastHit hitSelection;
 

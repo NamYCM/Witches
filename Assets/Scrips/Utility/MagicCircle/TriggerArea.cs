@@ -6,18 +6,26 @@ namespace Witches
 {
     public class TriggerArea : Subject
     {
-        [SerializeField] public GameObject control;
+        [SerializeField] private GameObject control;
 
+        public GameObject Control {
+            get => control;
+        }
+        
         private void Start()
         {
-            RegisterObserver(EventType.EnterMagicCircle, EventManager.Instance);
-            RegisterObserver(EventType.ExitMagicCircle, EventManager.Instance);
+
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            SendMessage(EventType.EnterMagicCircle, control.GetInstanceID());
+            EventManager.Instance.SendMessage(EventMagicCircle.EnterMagicCircle, Control.GetInstanceID());
             //EventManager.Instance.SendMessage(EventType.EnterMagicCircle, control.GetInstanceID());
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            EventManager.Instance.SendMessage(EventMagicCircle.ExitMagicCircle, Control.GetInstanceID());
         }
     }
 }

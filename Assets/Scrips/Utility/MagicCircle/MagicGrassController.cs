@@ -6,24 +6,30 @@ namespace Witches
 {
     public class MagicGrassController : MonoBehaviour, IObserver
     {
-        [SerializeField] private Vector3 targetPosition;
+        [SerializeField] private Transform targetPosition;
         private Vector3 oldPosition;
         private bool onEnter = false;
         private bool onExit = false;
+        private float speed = 2f;
 
         // Start is called before the first frame update
         void Start()
         {
-            oldPosition = transform.localPosition;
+            oldPosition = transform.position;
+            
+            EventManager.Instance.RegisterObserver(EventMagicCircle.EnterMagicCircle, this);
+            EventManager.Instance.RegisterObserver(EventMagicCircle.ExitMagicCircle, this);
 
-            EventManager.Instance.RegisterObserver(EventType.EnterMagicCircle, this);
-            EventManager.Instance.RegisterObserver(EventType.ExitMagicCircle, this);
+            if (!targetPosition)
+            {
+                Debug.LogError("Lost target position of grass");
+            }
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (!onEnter && !onExit) return;
+            if (!onEnter && !onExit && !targetPosition) return;
 
             if (onEnter)
             {
@@ -37,13 +43,13 @@ namespace Witches
 
         public void OnEnter()
         {
-            if (transform.position == targetPosition)
+            if (transform.position == targetPosition.position)
             {
                 onEnter = false;
                 return;
             }
-
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetPosition, Time.deltaTime);
+            
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition.position, speed * Time.deltaTime);
         }
 
         private void OnExit()
@@ -54,19 +60,19 @@ namespace Witches
                 return;
             }
 
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, oldPosition, Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, oldPosition, speed * Time.deltaTime);
         }
 
         public void OnNotify(object key, object data)
         {
             if (!((int)data == gameObject.GetInstanceID())) return;
 
-            if ((EventType)key == EventType.EnterMagicCircle)
+            if ((EventMagicCircle)key == EventMagicCircle.EnterMagicCircle)
             {
                 onEnter = true;
                 onExit = false;
             }
-            else if ((EventType)key == EventType.ExitMagicCircle)
+            else if ((EventMagicCircle)key == EventMagicCircle.ExitMagicCircle)
             {
                 onExit = true;
                 onEnter = false;

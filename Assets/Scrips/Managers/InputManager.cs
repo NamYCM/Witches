@@ -8,7 +8,7 @@ namespace Witches
 	#if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 	[RequireComponent(typeof(PlayerInput))]
 	#endif
-	public class InputManager : SingletonMono<InputManager>
+	public class InputManager : SingleSubject<InputManager>
 	{
 		[Header("Character Input Values")]
 		public Vector2 move;
@@ -61,6 +61,7 @@ namespace Witches
 
 		public void OnSkill (InputValue value) {
 			SkillInput(!onSkill);
+			SendMessage(Input.Skill, onSkill);
 		}
 #else
 	// old input sys if we do decide to have it (most likely wont)...
@@ -106,4 +107,8 @@ namespace Witches
 
 	}
 	
+	public enum Input
+	{
+		Skill
+	}
 }

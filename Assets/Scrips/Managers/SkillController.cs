@@ -14,7 +14,5 @@ namespace Witches {
     public enum SkillType {
         Telekinesis
     }
-
-    
 }
     

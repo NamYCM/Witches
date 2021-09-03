@@ -24,8 +24,8 @@ namespace Witches
                 Debug.LogError("Lost trigger area");
             }
 
-            EventManager.Instance.RegisterObserver(EventType.ExitMagicCircle, this);
-            EventManager.Instance.RegisterObserver(EventType.EnterMagicCircle, this);
+            EventManager.Instance.RegisterObserver(EventMagicCircle.ExitMagicCircle, this);
+            EventManager.Instance.RegisterObserver(EventMagicCircle.EnterMagicCircle, this);
         }
 
         private void OnEnter()
@@ -42,11 +42,11 @@ namespace Witches
         {
             if (!triggerArea && !waveFX) return;
 
-            if ((EventType)key == EventType.EnterMagicCircle && (int)data == triggerArea.control.GetInstanceID())
+            if ((EventMagicCircle)key == EventMagicCircle.EnterMagicCircle && (int)data == triggerArea.Control.GetInstanceID())
             {
                 OnEnter();
             }
-            else if ((EventType)key == EventType.ExitMagicCircle && (int)data == triggerArea.gameObject.GetInstanceID())
+            else if ((EventMagicCircle)key == EventMagicCircle.ExitMagicCircle && (int)data == triggerArea.Control.GetInstanceID())
             {
                 OnExit();
             }

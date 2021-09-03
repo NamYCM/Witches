@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Witches
 {
-    public class EventManager : SingleSubject<EventManager>, IObserver
+    public class EventManager : SingleSubject<EventManager>
     {
         // Start is called before the first frame update
         void Start()
@@ -17,14 +17,9 @@ namespace Witches
         {
 
         }
-
-        public void OnNotify(object key, object data)
-        {
-            SendMessage(key, data);
-        }
     }
 
-    public enum EventType
+    public enum EventMagicCircle
     {
         EnterMagicCircle,
         ExitMagicCircle
